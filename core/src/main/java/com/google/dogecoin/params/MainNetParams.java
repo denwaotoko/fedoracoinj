@@ -30,20 +30,20 @@ public class MainNetParams extends NetworkParameters {
         interval = INTERVAL;
         targetTimespan = TARGET_TIMESPAN;
         proofOfWorkLimit = Utils.decodeCompactBits(0x1e0fffffL);
-        dumpedPrivateKeyHeader = 158; //This is always addressHeader + 128
-        addressHeader = 30;
+        dumpedPrivateKeyHeader = 161; //This is always addressHeader + 128
+        addressHeader = 33;
         //p2shHeader = 5; //We don't have this
         acceptableAddressCodes = new int[] { addressHeader };
-        port = 22556;
-        packetMagic = 0xc0c0c0c0;
+        port = 22889;
+        packetMagic = 0xdead1337L;
         genesisBlock.setDifficultyTarget(0x1e0ffff0L);
-        genesisBlock.setTime(1386325540L);
-        genesisBlock.setNonce(99943L);
+        genesisBlock.setTime(1387666072L);
+        genesisBlock.setNonce(644969L);
         id = ID_MAINNET;
         subsidyDecreaseBlockCount = 100000;
         spendableCoinbaseDepth = 100;
         String genesisHash = genesisBlock.getHashAsString();
-        checkState(genesisHash.equals("1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"),
+        checkState(genesisHash.equals("746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054"),
                 genesisHash);
 
         // This contains (at a minimum) the blocks which are not BIP30 compliant. BIP30 changed how duplicate

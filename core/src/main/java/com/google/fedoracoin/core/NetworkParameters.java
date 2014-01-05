@@ -95,17 +95,18 @@ public abstract class NetworkParameters implements Serializable {
         Block genesisBlock = new Block(n);
         Transaction t = new Transaction(n);
         try {
+            // -NOTE - I have no clue how to check the "difficulty bit", but I am currently assuming it's the same as DogeCoin
             // A script containing the difficulty bits and the following message:
-            //
-            //   "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
+            //   
+            //   "In this moment I am Euphoric, not because of any government's own archaic Fiat system, but because of the power of my own Fedoracoin mining rig - DeShizz"
             byte[] bytes = Hex.decode
                     ("04ffff001d0104496e2074686973206d6f6d656e74204920616d20457570686f7269632c206e6f742062656361757365206f6620616e7920676f7665726e6d656e742773206f776e206172636861696320466961742073797374656d2c206275742062656361757365206f662074686520706f776572206f66206d79206f776e204665646f7261636f696e206d696e696e6720726967202d2044655368697a7a");
             t.addInput(new TransactionInput(n, t, bytes));
             ByteArrayOutputStream scriptPubKeyBytes = new ByteArrayOutputStream();
-            Script.writeBytes(scriptPubKeyBytes, Hex.decode
+            Script.writeBytes(scriptPubKeyBytes, Hex.decode //This was taken from the FedoraCoin main.cpp
                     ("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9"));
             scriptPubKeyBytes.write(ScriptOpCodes.OP_CHECKSIG);
-            t.addOutput(new TransactionOutput(n, t, Utils.toNanoCoins(440, 0), scriptPubKeyBytes.toByteArray()));
+            t.addOutput(new TransactionOutput(n, t, Utils.toNanoCoins(440, 0), scriptPubKeyBytes.toByteArray())); //THIS COULD BE THE PROBLEM
         } catch (Exception e) {
             // Cannot happen.
             throw new RuntimeException(e);

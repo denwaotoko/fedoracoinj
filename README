@@ -1,3 +1,17 @@
+vvvvvvvvvvvvvv CURRENT PROBLEMS! vvvvvvvvvvvvvv
+
+Upon creating block chain, the merkle root for the genesis block is WRONG. This is a big no-no.
+Probably has something to do with NetworkParameters.java
+
+
+
+
+
+
+
+
+
+
 To get started, ensure you have the latest JDK installed, and download Maven from:
 
   http://maven.apache.org/

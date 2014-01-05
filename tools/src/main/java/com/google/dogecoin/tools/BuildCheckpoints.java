@@ -89,6 +89,6 @@ public class BuildCheckpoints {
         checkState(manager.numCheckpoints() == checkpoints.size());
         StoredBlock test = manager.getCheckpointBefore(1386664400);  // Just after block 4571
         checkState(test.getHeight() == 4560);
-        checkState(test.getHeader().getHashAsString().equals("0158aab19442930f6070314c90679e067f9065d335585b45fc68d62074d4ae66"));
+        checkState(test.getHeader().getHashAsString().equals("b03ab32107112e8314330551a7d72a445e7c3aaa91c280dc87ecca0824f4332a"));
     }
 }

@@ -5,10 +5,15 @@ Probably has something to do with NetworkParameters.java
 More specifically, there's a high chance it is the "toNanoCoins(440,0)". I do not fully understand this method,
 and reading the BitcoinJ API guide didn't seem to help my situation.
 
+I have also not added any Peers in SeedPeers.java nor MainNetParams.java, so this may be a problem later on.
+
+Again, I'm working on little to no documentation, and I apologize for the crudeness of this repo. 
+It's really just a side hobby to tinker with this project and it'd be pretty cool to get this working.
+
+Thanks for your time :)
 
 
-
-
+-------------- ACTUAL README -----------------
 
 
 To get started, ensure you have the latest JDK installed, and download Maven from:

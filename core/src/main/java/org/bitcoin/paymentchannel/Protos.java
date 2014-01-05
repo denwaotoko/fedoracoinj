@@ -1126,7 +1126,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.TwoWayChannelMessage.class, org.bitcoin.paymentchannel.Protos.TwoWayChannelMessage.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.TwoWayChannelMessage.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.TwoWayChannelMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2972,7 +2972,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.ClientVersion.class, org.bitcoin.paymentchannel.Protos.ClientVersion.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.ClientVersion.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.ClientVersion.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3550,7 +3550,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.ServerVersion.class, org.bitcoin.paymentchannel.Protos.ServerVersion.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.ServerVersion.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.ServerVersion.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4261,7 +4261,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.Initiate.class, org.bitcoin.paymentchannel.Protos.Initiate.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.Initiate.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.Initiate.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5049,7 +5049,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.ProvideRefund.class, org.bitcoin.paymentchannel.Protos.ProvideRefund.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.ProvideRefund.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.ProvideRefund.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5585,7 +5585,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.ReturnRefund.class, org.bitcoin.paymentchannel.Protos.ReturnRefund.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.ReturnRefund.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.ReturnRefund.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6143,7 +6143,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.ProvideContract.class, org.bitcoin.paymentchannel.Protos.ProvideContract.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.ProvideContract.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.ProvideContract.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6915,7 +6915,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.UpdatePayment.class, org.bitcoin.paymentchannel.Protos.UpdatePayment.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.UpdatePayment.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.UpdatePayment.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7436,7 +7436,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.Settlement.class, org.bitcoin.paymentchannel.Protos.Settlement.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.Settlement.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.Settlement.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -8221,7 +8221,7 @@ public final class Protos {
                 org.bitcoin.paymentchannel.Protos.Error.class, org.bitcoin.paymentchannel.Protos.Error.Builder.class);
       }
 
-      // Construct using org.dogecoin.paymentchannel.Protos.Error.newBuilder()
+      // Construct using org.fedoracoin.paymentchannel.Protos.Error.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }

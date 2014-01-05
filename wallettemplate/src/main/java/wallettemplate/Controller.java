@@ -1,9 +1,9 @@
 package wallettemplate;
 
-import com.google.dogecoin.core.AbstractWalletEventListener;
-import com.google.dogecoin.core.DownloadListener;
-import com.google.dogecoin.core.Utils;
-import com.google.dogecoin.core.Wallet;
+import com.google.fedoracoin.core.AbstractWalletEventListener;
+import com.google.fedoracoin.core.DownloadListener;
+import com.google.fedoracoin.core.Utils;
+import com.google.fedoracoin.core.Wallet;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

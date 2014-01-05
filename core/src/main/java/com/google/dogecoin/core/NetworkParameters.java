@@ -99,7 +99,7 @@ public abstract class NetworkParameters implements Serializable {
             //
             //   "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
             byte[] bytes = Hex.decode
-                    ("04ffff001d0104084e696e746f6e646f");
+                    ("04ffff001d0104496e2074686973206d6f6d656e74204920616d20457570686f7269632c206e6f742062656361757365206f6620616e7920676f7665726e6d656e742773206f776e206172636861696320466961742073797374656d2c206275742062656361757365206f662074686520706f776572206f66206d79206f776e204665646f7261636f696e206d696e696e6720726967202d2044655368697a7a");
             t.addInput(new TransactionInput(n, t, bytes));
             ByteArrayOutputStream scriptPubKeyBytes = new ByteArrayOutputStream();
             Script.writeBytes(scriptPubKeyBytes, Hex.decode
@@ -114,7 +114,7 @@ public abstract class NetworkParameters implements Serializable {
         return genesisBlock;
     }
 
-    public static final int TARGET_TIMESPAN = (int)(4 * 60 * 60);  // 4h per difficulty cycle, on average.
+    public static final int TARGET_TIMESPAN = (int)(10 * 60);  // 10m per difficulty cycle, on average.
     public static final int TARGET_SPACING = (int)(1 * 60);  // 1 minutes per block.
     public static final int INTERVAL = TARGET_TIMESPAN / TARGET_SPACING;
     
@@ -128,7 +128,7 @@ public abstract class NetworkParameters implements Serializable {
     /**
      * The maximum money to be generated
      */
-    public static final BigInteger MAX_MONEY = new BigInteger("100000000000", 10).multiply(COIN);
+    public static final BigInteger MAX_MONEY = new BigInteger("500000000000", 10).multiply(COIN);
 
     /** Alias for TestNet3Params.get(), use that instead. */
     @Deprecated

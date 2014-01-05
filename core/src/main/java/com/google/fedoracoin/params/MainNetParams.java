@@ -40,11 +40,11 @@ public class MainNetParams extends NetworkParameters {
         genesisBlock.setTime(1387666072L);
         genesisBlock.setNonce(644969L);
         id = ID_MAINNET;
-        subsidyDecreaseBlockCount = 100000;
-        spendableCoinbaseDepth = 100;
+        subsidyDecreaseBlockCount = 100000; //unchanged from Dogecoin
+        spendableCoinbaseDepth = 100; //unchanged from DogeCoin
         String genesisHash = genesisBlock.getHashAsString();
         checkState(genesisHash.equals("746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054"),
-                genesisHash);
+                genesisHash); //found on: http://fedorachain.info/block/746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054
 
         // This contains (at a minimum) the blocks which are not BIP30 compliant. BIP30 changed how duplicate
         // transactions are handled. Duplicated transactions could occur in the case where a coinbase had the same
@@ -61,7 +61,7 @@ public class MainNetParams extends NetworkParameters {
                 /*"seed.bitcoin.sipa.be",        // Pieter Wuille
                 "dnsseed.bluematt.me",         // Matt Corallo
                 "dnsseed.bitcoin.dashjr.org",  // Luke Dashjr*/
-                "seed.dogeftw.com",
+                "seed.dogeftw.com", //unchanged
                 //TODO Add more...
         };
     }

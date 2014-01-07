@@ -839,11 +839,10 @@ public abstract class AbstractBlockChain {
             log.info("Difficulty transition traversal took {}msec", elapsed);
 
         Block blockIntervalAgo = cursor.getHeader();
-        long timespan = (int) (prev.getTimeSeconds() - blockIntervalAgo.getTimeSeconds());
+        long timespan = (int) (prev.getTimeSeconds() - blockIntervalAgo.getTimeSeconds()); //chaged to long
         // Limit the adjustment step.
-        final long targetTimespan = params.getTargetTimespan();
-        // Limit the adjustment step.
-        
+        final long targetTimespan = params.getTargetTimespan();//changed to long
+
         /*if (storedPrev.getHeight()+1 > 10000) << OLD DOGECOIN CALCULATIONS
         {
             if (timespan < targetTimespan / 4)

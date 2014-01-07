@@ -868,8 +868,8 @@ public abstract class AbstractBlockChain {
                 //nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
                 //nTargetSpacing = 1 * 60; // 60 seconds
                 //nInterval = nTargetTimespan / nTargetSpacing;
-                nActualTimespanMax = nTargetTimespan * (112/100); //12% down
-                nActualTimespanMin = nTargetTimespan * (100/111); //10% up
+                //ActualTimespanMax = nTargetTimespan * (112/100); //12% down
+                //nActualTimespanMin = nTargetTimespan * (100/111); //10% up
                 if (timespan < targetTimespan * (112/100))
                 timespan = targetTimespan * (112/100);
                 if (timespan > targetTimespan * (100/111))

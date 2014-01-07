@@ -848,8 +848,8 @@ public abstract class AbstractBlockChain {
         // Limit the adjustment step.
         final int targetTimespan = params.getTargetTimespan();
         // Limit the adjustment step.
-        /*
-        if (storedPrev.getHeight()+1 > 10000)
+        
+        /*if (storedPrev.getHeight()+1 > 10000) << OLD DOGECOIN CALCULATIONS
         {
             if (timespan < targetTimespan / 4)
                 timespan = targetTimespan / 4;
@@ -869,42 +869,17 @@ public abstract class AbstractBlockChain {
                 timespan = targetTimespan / 16;
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
-        }
-        
-        */
-        
-        
-        //if (storedPrev.getHeight()+1 > 312000)
-        //{
-            if (timespan < targetTimespan * (112/100))
-                timespan = targetTimespan * (112/100);
-            if (timespan > targetTimespan * (100/111))
-                timespan = targetTimespan * (100/111);
-        //}
-        /*else
-        {
-            if (timespan < targetTimespan * 4)
-            timespan = targetTimespan * 4;
-            if (timespan > targetTimespan / 4)
-            timespan = targetTimespan / 4;
         }*/
         
-        
-        /* THIS IS FROM MAIN.CPP
-                nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
-                nTargetSpacing = 1 * 60; // 60 seconds
-                nInterval = nTargetTimespan / nTargetSpacing;
-                
-                nActualTimespanMax = nTargetTimespan * (112/100); //12% down
-                nActualTimespanMin = nTargetTimespan * (100/111); //10% up
-                
-                if (targetTimespan < nActualTimespanMin)
-                targetTimespan = nActualTimespanMin;
-                if (targetTimespan > nActualTimespanMax)
-                targetTimespan = nActualTimespanMax;
-        */
-        
-
+        int64 nActualTimespanMax;
+        int64 nActualTimespanMin;
+        nActualTimespanMax = nTargetTimespan * (112/100); //12% down
+        nActualTimespanMin = nTargetTimespan * (100/111); //10% up
+        if (timespan < nActualTimespanMin)
+            timespan = nActualTimespanMin;
+        if (timespan > nActualTimespanMax)
+            timespan = nActualTimespanMax;
+            
         BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget());
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));
         newDifficulty = newDifficulty.divide(BigInteger.valueOf(targetTimespan));

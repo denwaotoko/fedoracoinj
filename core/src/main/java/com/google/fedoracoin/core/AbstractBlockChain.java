@@ -794,12 +794,7 @@ public abstract class AbstractBlockChain {
      * Throws an exception if the blocks difficulty is not correct.
      */
      
-     
-    /* 
-    static int64 nTargetTimespan = 10 * 60; // FedoraCoin: every 4 hours
-    static int64 nTargetSpacing = 60; // FedoraCoin: 1 minutes
-    static const int64 nInterval = nTargetTimespan / nTargetSpacing; 
-    */
+    
     private void checkDifficultyTransitions(StoredBlock storedPrev, Block nextBlock) throws BlockStoreException, VerificationException {
         checkState(lock.isHeldByCurrentThread());
         Block prev = storedPrev.getHeader();
@@ -844,9 +839,9 @@ public abstract class AbstractBlockChain {
             log.info("Difficulty transition traversal took {}msec", elapsed);
 
         Block blockIntervalAgo = cursor.getHeader();
-        int timespan = (int) (prev.getTimeSeconds() - blockIntervalAgo.getTimeSeconds());
+        long timespan = (int) (prev.getTimeSeconds() - blockIntervalAgo.getTimeSeconds());
         // Limit the adjustment step.
-        final int targetTimespan = params.getTargetTimespan();
+        final long targetTimespan = params.getTargetTimespan();
         // Limit the adjustment step.
         
         /*if (storedPrev.getHeight()+1 > 10000) << OLD DOGECOIN CALCULATIONS
@@ -871,8 +866,8 @@ public abstract class AbstractBlockChain {
                 timespan = targetTimespan * 4;
         }*/
         
-        int64 nActualTimespanMax;
-        int64 nActualTimespanMin;
+        long nActualTimespanMax;
+        long nActualTimespanMin;
         nActualTimespanMax = targetTimespan * (112/100); //12% down
         nActualTimespanMin = targetTimespan * (100/111); //10% up
         if (timespan < nActualTimespanMin)

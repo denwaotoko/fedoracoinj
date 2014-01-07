@@ -848,7 +848,7 @@ public abstract class AbstractBlockChain {
         // Limit the adjustment step.
         final int targetTimespan = params.getTargetTimespan();
         // Limit the adjustment step.
-        /*
+        
         if (storedPrev.getHeight()+1 > 10000)
         {
             if (timespan < targetTimespan / 4)
@@ -869,7 +869,12 @@ public abstract class AbstractBlockChain {
                 timespan = targetTimespan / 16;
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
-        }*/
+        }
+        
+        
+        /*
+        
+        
         if (storedPrev.getHeight()+1 > 312000)
         {
             if (timespan < targetTimespan * (112/100))
@@ -883,7 +888,10 @@ public abstract class AbstractBlockChain {
             timespan = targetTimespan * 4;
             if (timespan > targetTimespan / 4)
             timespan = targetTimespan / 4;
-        }/*
+        }
+        
+        
+        /* THIS IS FROM MAIN.CPP
                 nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
                 nTargetSpacing = 1 * 60; // 60 seconds
                 nInterval = nTargetTimespan / nTargetSpacing;

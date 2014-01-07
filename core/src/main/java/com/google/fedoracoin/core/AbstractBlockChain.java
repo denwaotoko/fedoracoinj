@@ -866,12 +866,12 @@ public abstract class AbstractBlockChain {
         BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget());
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));
         newDifficulty = newDifficulty.divide(BigInteger.valueOf(targetTimespan));
-
+        /*
         if (newDifficulty.compareTo(params.getProofOfWorkLimit()) > 0) {
             log.info("Difficulty hit proof of work limit: {}", newDifficulty.toString(16));
             newDifficulty = params.getProofOfWorkLimit();
-        }
-
+        }*/
+        
         int accuracyBytes = (int) (nextBlock.getDifficultyTarget() >>> 24) - 3;
         BigInteger receivedDifficulty = nextBlock.getDifficultyTargetAsInteger();
 

@@ -848,7 +848,7 @@ public abstract class AbstractBlockChain {
         // Limit the adjustment step.
         final int targetTimespan = params.getTargetTimespan();
         // Limit the adjustment step.
-        
+        /*
         if (storedPrev.getHeight()+1 > 10000)
         {
             if (timespan < targetTimespan / 4)
@@ -871,8 +871,7 @@ public abstract class AbstractBlockChain {
                 timespan = targetTimespan * 4;
         }
         
-        
-        /*
+        */
         
         
         if (storedPrev.getHeight()+1 > 312000)

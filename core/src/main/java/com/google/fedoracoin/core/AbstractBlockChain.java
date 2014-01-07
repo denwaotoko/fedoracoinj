@@ -874,20 +874,20 @@ public abstract class AbstractBlockChain {
         */
         
         
-        if (storedPrev.getHeight()+1 > 312000)
-        {
+        //if (storedPrev.getHeight()+1 > 312000)
+        //{
             if (timespan < targetTimespan * (112/100))
                 timespan = targetTimespan * (112/100);
             if (timespan > targetTimespan * (100/111))
                 timespan = targetTimespan * (100/111);
-        }
-        else
+        //}
+        /*else
         {
             if (timespan < targetTimespan * 4)
             timespan = targetTimespan * 4;
             if (timespan > targetTimespan / 4)
             timespan = targetTimespan / 4;
-        }
+        }*/
         
         
         /* THIS IS FROM MAIN.CPP

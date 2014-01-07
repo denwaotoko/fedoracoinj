@@ -40,8 +40,8 @@ public class MainNetParams extends NetworkParameters {
         genesisBlock.setTime(1387666072L);
         genesisBlock.setNonce(644969L);
         id = ID_MAINNET;
-        subsidyDecreaseBlockCount = 100000; //unchanged from Dogecoin
-        spendableCoinbaseDepth = 100; //unchanged from DogeCoin
+        subsidyDecreaseBlockCount = 100000; //block halving
+        spendableCoinbaseDepth = 30; //main.h
         String genesisHash = genesisBlock.getHashAsString();
         checkState(genesisHash.equals("746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054"),
                 genesisHash); //found on: http://fedorachain.info/block/746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054

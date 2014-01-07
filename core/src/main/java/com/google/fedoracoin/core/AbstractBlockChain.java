@@ -793,6 +793,13 @@ public abstract class AbstractBlockChain {
     /**
      * Throws an exception if the blocks difficulty is not correct.
      */
+     
+     
+    /* 
+    static int64 nTargetTimespan = 10 * 60; // FedoraCoin: every 4 hours
+    static int64 nTargetSpacing = 60; // FedoraCoin: 1 minutes
+    static const int64 nInterval = nTargetTimespan / nTargetSpacing; 
+    */
     private void checkDifficultyTransitions(StoredBlock storedPrev, Block nextBlock) throws BlockStoreException, VerificationException {
         checkState(lock.isHeldByCurrentThread());
         Block prev = storedPrev.getHeader();
@@ -863,20 +870,33 @@ public abstract class AbstractBlockChain {
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
         }*/
-        if (storedPrev.getHeight()+1 > 312000)
-        {
-                if (timespan < targetTimespan * (112/100))
+        //if (storedPrev.getHeight()+1 > 312000)
+        //{
+            if (timespan < targetTimespan * (112/100))
                 timespan = targetTimespan * (112/100);
-                if (timespan > targetTimespan * (100/111))
+            if (timespan > targetTimespan * (100/111))
                 timespan = targetTimespan * (100/111);
-        }
-        else
+        //}
+        /*else
         {
                 if (timespan < targetTimespan * 4)
                 timespan = targetTimespan * 4;
                 if (timespan > targetTimespan / 4)
                 timespan = targetTimespan / 4;
         }
+                nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
+                nTargetSpacing = 1 * 60; // 60 seconds
+                nInterval = nTargetTimespan / nTargetSpacing;
+                
+                nActualTimespanMax = nTargetTimespan * (112/100); //12% down
+                nActualTimespanMin = nTargetTimespan * (100/111); //10% up
+                
+                if (targetTimespan < nActualTimespanMin)
+                targetTimespan = nActualTimespanMin;
+                if (targetTimespan > nActualTimespanMax)
+                targetTimespan = nActualTimespanMax;
+        */
+        
 
         BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget());
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));

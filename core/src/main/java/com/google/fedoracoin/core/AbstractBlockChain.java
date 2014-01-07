@@ -863,7 +863,7 @@ public abstract class AbstractBlockChain {
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
         }*/
-        if (storedPrev.getHeight()+1 >nHeight > 312000)
+        if (storedPrev.getHeight()+1 > 312000)
         { //New Protocol
                 //nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
                 //nTargetSpacing = 1 * 60; // 60 seconds

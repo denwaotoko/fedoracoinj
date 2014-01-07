@@ -1,14 +1,10 @@
 vvvvvvvvvvvvvv CURRENT PROBLEMS! vvvvvvvvvvvvvv
 
-Upon creating block chain, the merkle root for the genesis block is WRONG. This is a big no-no.
-Probably has something to do with NetworkParameters.java. The Merkle Root should be: 51de661d58580e9d49e8d2b6a620c52bb6776953f2410d5814106120ad894f65.
-But as stated, this is not the case. I believe this has atleast part of the blame.
-More specifically, there's a high chance it is the "toNanoCoins(440,0)". I do not fully understand this method,
-and reading the BitcoinJ API guide didn't seem to help my situation.
-To be fair, I'm not knowledgeable at all! What I did was just look at the changes DogecoinJ made when being ported from BitcoinJ, and worked from there.
+WOO FEDORACOIN APP DOESN'T FC AS SOON AS YOU LAUNCH IT NOW! Valid Address generated as well!
+Added a few peers.
 
+That being said, it seems to be able to receive now. Unfortunately the block sync stops at Block 9 for an unknown reason.
 
-I have also not added any Peers in SeedPeers.java nor MainNetParams.java, so this may be a problem later on.
 
 Again, I'm working on little to no documentation, and I apologize for the crudeness of this repo. 
 It's really just a side hobby to tinker with this project and it'd be pretty cool to get this working.

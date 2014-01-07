@@ -873,8 +873,8 @@ public abstract class AbstractBlockChain {
         
         int64 nActualTimespanMax;
         int64 nActualTimespanMin;
-        nActualTimespanMax = nTargetTimespan * (112/100); //12% down
-        nActualTimespanMin = nTargetTimespan * (100/111); //10% up
+        nActualTimespanMax = targetTimespan * (112/100); //12% down
+        nActualTimespanMin = targetTimespan * (100/111); //10% up
         if (timespan < nActualTimespanMin)
             timespan = nActualTimespanMin;
         if (timespan > nActualTimespanMax)

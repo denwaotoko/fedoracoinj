@@ -843,7 +843,7 @@ public abstract class AbstractBlockChain {
         // Limit the adjustment step.
         final long targetTimespan = params.getTargetTimespan();//changed to long
 
-        /*if (storedPrev.getHeight()+1 > 10000) << OLD DOGECOIN CALCULATIONS
+        if (storedPrev.getHeight()+1 > 10000) //OLD DOGECOIN CALCULATIONS
         {
             if (timespan < targetTimespan / 4)
                 timespan = targetTimespan / 4;
@@ -857,23 +857,26 @@ public abstract class AbstractBlockChain {
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
         }
+	else if (storedPrev.getHeight()+1 < 2500)
+	{
+		long nActualTimespanMax;
+        	long nActualTimespanMin;
+        	nActualTimespanMax = targetTimespan * (112/100); //12% down
+        	nActualTimespanMin = targetTimespan * (100/111); //10% up
+        	if (timespan < nActualTimespanMin)
+            		timespan = nActualTimespanMin;
+        	if (timespan > nActualTimespanMax)
+            		timespan = nActualTimespanMax;
+        }
         else
         {
             if (timespan < targetTimespan / 16)
                 timespan = targetTimespan / 16;
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
-        }*/
+        }
         
-        long nActualTimespanMax;
-        long nActualTimespanMin;
-        nActualTimespanMax = targetTimespan * (112/100); //12% down
-        nActualTimespanMin = targetTimespan * (100/111); //10% up
-        if (timespan < nActualTimespanMin)
-            timespan = nActualTimespanMin;
-        if (timespan > nActualTimespanMax)
-            timespan = nActualTimespanMax;
-            
+        
         BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget());
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));
         newDifficulty = newDifficulty.divide(BigInteger.valueOf(targetTimespan));

@@ -1,20 +1,14 @@
-vvvvvvvvvvvvvv CURRENT PROBLEMS! vvvvvvvvvvvvvv
+Everything works now!
 
-WOO FEDORACOIN APP DOESN'T FC AS SOON AS YOU LAUNCH IT NOW! Valid Address generated as well!
-Added a few peers.
+For future reference if you want to create a port for a different coin, things you need to change:
+SeedPeers.java
+NetworkParameters.java
+MainNetParams.java
+AbstractBlockChain.java
+BuildCheckpoints.java
+IrcDiscovery.java (important in case permanent nodes aren't your thing)
 
-That being said, it seems to be able to receive now. Unfortunately the block sync stops at Block 9 for an unknown reason.
-This prevents the end user from actually sending the coins. This is bad.
-
-Error given in logcat: Difficulty hit proof of work limit: 3fffc0000000000000(many 0's).
-Where do you people learn to work this? Am I missing like a "BitcoinJ porting for dummies"?
-
-
-
-Again, I'm working on little to no documentation, and I apologize for the crudeness of this repo. 
-It's really just a side hobby to tinker with this project and it'd be pretty cool to get this working.
-
-Thanks for your time, and hopefully someone can manage to make this work if I never get it to :)
+And obviously everything involving renaming and rebranding and slapping your name on things.
 
 
 -------------- ACTUAL README -----------------

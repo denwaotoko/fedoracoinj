@@ -4,7 +4,7 @@ For future reference if you want to create a port for a different coin, things y
 SeedPeers.java
 NetworkParameters.java
 MainNetParams.java
-AbstractBlockChain.java
+AbstractBlockChain.java <---- RETARGET ALGO IS VERY IMPORTANT!
 BuildCheckpoints.java
 IrcDiscovery.java (important in case permanent nodes aren't your thing)
 

@@ -843,6 +843,68 @@ public abstract class AbstractBlockChain {
         // Limit the adjustment step.
         final long targetTimespan = params.getTargetTimespan();//changed to long
 
+
+		//new algo
+		if (storedPrev.getHeight() > 51000){
+			//const CBlockIndex *BlockLastSolved = pindexLast;
+			//const CBlockIndex *BlockReading = pindexLast;
+			//const CBlockHeader *BlockCreating = pblock;
+			long PastBlocksMass = 0;
+			long PastRateActualSeconds = 0;
+			long PastRateTargetSeconds = 0;
+			double PastRateAdjustmentRatio = 1;
+			BigInteger PastDifficultyAverage;
+			BigInteger PastDifficultyAveragePrev;
+			double EventHorizonDeviation;
+			double EventHorizonDeviationFast;
+			double EventHorizonDeviationSlow;
+
+			if (storedPrev == NULL || storedPrev.getHeight() == 0) { System.out.println("u wot m8"); }
+
+			for (int i = 1; storedPrev > 0 && storedPrev.getHeight > 0; i++) {
+				if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
+				PastBlocksMass++;
+
+				if (i == 1) { 
+					Utils.GetCompact(prev.getDifficultyTarget()); 
+					}
+				else { 
+					PastDifficultyAverage = ((Utils.SetCompact(prev.getDifficultyTarget()) - PastDifficultyAveragePrev) / i) + PastDifficultyAveragePrev; 
+					}
+				PastDifficultyAveragePrev = PastDifficultyAverage;
+
+				PastRateActualSeconds = storedPrev.getTargetTimespan() - cursor.getTargetTimepan();
+				PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
+				PastRateAdjustmentRatio = 1;
+				if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }
+				if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+					PastRateAdjustmentRatio = PastRateTargetSeconds / PastRateActualSeconds;
+				}
+				EventHorizonDeviation = 1 + (0.7084 * pow((PastBlocksMass/144), -1.228));
+				EventHorizonDeviationFast = EventHorizonDeviation;
+				EventHorizonDeviationSlow = 1 / EventHorizonDeviation;
+
+				if (PastBlocksMass >= PastBlocksMin) {
+					if ((PastRateAdjustmentRatio <= EventHorizonDeviationSlow) || (PastRateAdjustmentRatio >= EventHorizonDeviationFast)) { System.out.println("Assert"); break; }
+				}
+				if (blockStore.get(storedPrev.getHeader().getPrevBlockHash()) == NULL) { /*assert(BlockReading);*/ break; }
+				storedPrev = blockStore.get(storedPrev.getHeader().getPrevBlockHash());
+			}
+
+			BigInteger bnNew = PastDifficultyAverage;
+			if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+				bnNew *= PastRateActualSeconds;
+				bnNew /= PastRateTargetSeconds;
+			}
+			if (bnNew > bnProofOfWorkLimit) { bnNew = bnProofOfWorkLimit; }
+
+			/// debug print
+			System.out.println("Difficulty Retarget - Kimoto Gravity Well\n");
+			System.out.println("PastRateAdjustmentRatio = %g\n" + PastRateAdjustmentRatio);
+			System.out.println("Before: %08x %s\n"+ prev.getDifficultyTarget() + Utils.decodeCompactBits(BigInteger.valueOf(prev.getDifficultyTarget())));
+			System.out.println("After: %08x %s\n" + Utils.decodeCompactBits(bnNew) + BigInteger.toString(bnNew));
+			
+		}
         if (storedPrev.getHeight()+1 > 10000) //OLD DOGECOIN CALCULATIONS
         {
             if (timespan < targetTimespan / 4)
@@ -857,8 +919,8 @@ public abstract class AbstractBlockChain {
             if (timespan > targetTimespan * 4)
                 timespan = targetTimespan * 4;
         }
-	else if (storedPrev.getHeight()+1 < 2500)
-	{
+		else if (storedPrev.getHeight()+1 < 2500)
+		{
 		long nActualTimespanMax;
         	long nActualTimespanMin;
         	nActualTimespanMax = targetTimespan * (112/100); //12% down
@@ -877,7 +939,7 @@ public abstract class AbstractBlockChain {
         }
         
         
-        BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget());
+        BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget()); //BlockLastSolved->nbits
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));
         newDifficulty = newDifficulty.divide(BigInteger.valueOf(targetTimespan));
         

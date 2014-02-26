@@ -1055,12 +1055,12 @@ public class Block extends Message {
 
     @VisibleForTesting
     public Block createNextBlock(@Nullable Address to, TransactionOutPoint prevOut) {
-        return createNextBlock(to, prevOut, Utils.now().getTime() / 1000, EMPTY_BYTES, Utils.toNanoCoins(50, 0));
+        return createNextBlock(to, prevOut, Utils.currentTimeMillis() / 1000, EMPTY_BYTES, Utils.toNanoCoins(50, 0));
     }
 
     @VisibleForTesting
     public Block createNextBlock(@Nullable Address to, BigInteger value) {
-        return createNextBlock(to, null, Utils.now().getTime() / 1000, EMPTY_BYTES, value);
+        return createNextBlock(to, null, Utils.currentTimeMillis() / 1000, EMPTY_BYTES, value);
     }
 
     @VisibleForTesting
@@ -1070,7 +1070,7 @@ public class Block extends Message {
 
     @VisibleForTesting
     public Block createNextBlockWithCoinbase(byte[] pubKey, BigInteger coinbaseValue) {
-        return createNextBlock(null, null, Utils.now().getTime() / 1000, pubKey, coinbaseValue);
+        return createNextBlock(null, null, Utils.currentTimeMillis() / 1000, pubKey, coinbaseValue);
     }
 
     /**
@@ -1079,7 +1079,7 @@ public class Block extends Message {
      */
     @VisibleForTesting
     Block createNextBlockWithCoinbase(byte[] pubKey) {
-        return createNextBlock(null, null, Utils.now().getTime() / 1000, pubKey, Utils.toNanoCoins(50, 0));
+        return createNextBlock(null, null, Utils.currentTimeMillis() / 1000, pubKey, Utils.toNanoCoins(50, 0));
     }
 
     @VisibleForTesting

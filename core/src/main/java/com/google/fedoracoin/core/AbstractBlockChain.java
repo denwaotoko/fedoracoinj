@@ -846,7 +846,7 @@ public abstract class AbstractBlockChain {
 		System.out.println(storedPrev.getHeight());
 		
 		if (storedPrev.getHeight()+1 > 50999){
-			System.out.println("Kimoto time! storedPrev :" + nextBlock);
+			//System.out.println("Kimoto time! storedPrev :" + nextBlock);
 			checkDifficultyTransitions_V2(storedPrev, nextBlock);
 		}
 		
@@ -1029,7 +1029,7 @@ bnNew /= PastRateTargetSeconds;
         }
 
 
-		System.out.println("verifyDifficulty of Kimoto: "+ newDifficulty.toString(16));
+		//System.out.println("verifyDifficulty of Kimoto: "+ newDifficulty.toString(16));
         verifyDifficulty(newDifficulty, nextBlock);
 
     }

@@ -109,7 +109,7 @@ public class Peer extends PeerSocketHandler {
     private int filteredBlocksReceived;
     // How frequently to refresh the filter. This should become dynamic in future and calculated depending on the
     // actual false positive rate. For now a good value was determined empirically around January 2013.
-    private static final int RESEND_BLOOM_FILTER_BLOCK_COUNT = 25000;
+    private static final int RESEND_BLOOM_FILTER_BLOCK_COUNT = 75000;
     // Keeps track of things we requested internally with getdata but didn't receive yet, so we can avoid re-requests.
     // It's not quite the same as getDataFutures, as this is used only for getdatas done as part of downloading
     // the chain and so is lighter weight (we just keep a bunch of hashes not futures).

@@ -34,13 +34,13 @@ public class MainNetParams extends NetworkParameters {
         addressHeader = 33;
         //p2shHeader = 5; //We don't have this
         acceptableAddressCodes = new int[] { addressHeader };
-        port = 22889;
+        port = 44889;
         packetMagic = 0xdead1337L;
         genesisBlock.setDifficultyTarget(0x1e0ffff0L);
         genesisBlock.setTime(1387666072L);
         genesisBlock.setNonce(644969L);
         id = ID_MAINNET;
-        subsidyDecreaseBlockCount = 100000; //block halving
+        subsidyDecreaseBlockCount = 52000; //block halving
         spendableCoinbaseDepth = 30; //main.h
         String genesisHash = genesisBlock.getHashAsString();
         checkState(genesisHash.equals("746b18d1b206b817408c355a256a144e740579b6729043d184574642077f2054"),

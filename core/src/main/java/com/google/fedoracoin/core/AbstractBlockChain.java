@@ -844,67 +844,13 @@ public abstract class AbstractBlockChain {
         final long targetTimespan = params.getTargetTimespan();//changed to long
 
 
-		//new algo
-		if (storedPrev.getHeight() > 51000){
-			//const CBlockIndex *BlockLastSolved = pindexLast;
-			//const CBlockIndex *BlockReading = pindexLast;
-			//const CBlockHeader *BlockCreating = pblock;
-			long PastBlocksMass = 0;
-			long PastRateActualSeconds = 0;
-			long PastRateTargetSeconds = 0;
-			double PastRateAdjustmentRatio = 1;
-			BigInteger PastDifficultyAverage;
-			BigInteger PastDifficultyAveragePrev;
-			double EventHorizonDeviation;
-			double EventHorizonDeviationFast;
-			double EventHorizonDeviationSlow;
-
-			if (storedPrev == NULL || storedPrev.getHeight() == 0) { System.out.println("u wot m8"); }
-
-			for (int i = 1; storedPrev > 0 && storedPrev.getHeight > 0; i++) {
-				if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
-				PastBlocksMass++;
-
-				if (i == 1) { 
-					Utils.GetCompact(prev.getDifficultyTarget()); 
-					}
-				else { 
-					PastDifficultyAverage = ((Utils.SetCompact(prev.getDifficultyTarget()) - PastDifficultyAveragePrev) / i) + PastDifficultyAveragePrev; 
-					}
-				PastDifficultyAveragePrev = PastDifficultyAverage;
-
-				PastRateActualSeconds = storedPrev.getTargetTimespan() - cursor.getTargetTimepan();
-				PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
-				PastRateAdjustmentRatio = 1;
-				if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }
-				if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
-					PastRateAdjustmentRatio = PastRateTargetSeconds / PastRateActualSeconds;
-				}
-				EventHorizonDeviation = 1 + (0.7084 * pow((PastBlocksMass/144), -1.228));
-				EventHorizonDeviationFast = EventHorizonDeviation;
-				EventHorizonDeviationSlow = 1 / EventHorizonDeviation;
-
-				if (PastBlocksMass >= PastBlocksMin) {
-					if ((PastRateAdjustmentRatio <= EventHorizonDeviationSlow) || (PastRateAdjustmentRatio >= EventHorizonDeviationFast)) { System.out.println("Assert"); break; }
-				}
-				if (blockStore.get(storedPrev.getHeader().getPrevBlockHash()) == NULL) { /*assert(BlockReading);*/ break; }
-				storedPrev = blockStore.get(storedPrev.getHeader().getPrevBlockHash());
-			}
-
-			BigInteger bnNew = PastDifficultyAverage;
-			if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
-				bnNew *= PastRateActualSeconds;
-				bnNew /= PastRateTargetSeconds;
-			}
-			if (bnNew > bnProofOfWorkLimit) { bnNew = bnProofOfWorkLimit; }
-
-			/// debug print
-			System.out.println("Difficulty Retarget - Kimoto Gravity Well\n");
-			System.out.println("PastRateAdjustmentRatio = %g\n" + PastRateAdjustmentRatio);
-			System.out.println("Before: %08x %s\n"+ prev.getDifficultyTarget() + Utils.decodeCompactBits(BigInteger.valueOf(prev.getDifficultyTarget())));
-			System.out.println("After: %08x %s\n" + Utils.decodeCompactBits(bnNew) + BigInteger.toString(bnNew));
-			
+		System.out.println(storedPrev.getHeight());
+		
+		if (storedPrev.getHeight()+1 > 50999){
+			System.out.println("Kimoto time! storedPrev :" + nextBlock);
+			checkDifficultyTransitions_V2(storedPrev, nextBlock);
 		}
+		
         if (storedPrev.getHeight()+1 > 10000) //OLD DOGECOIN CALCULATIONS
         {
             if (timespan < targetTimespan / 4)
@@ -938,7 +884,7 @@ public abstract class AbstractBlockChain {
                 timespan = targetTimespan * 4;
         }
         
-        
+        if (storedPrev.getHeight()+1 < 51000){
         BigInteger newDifficulty = Utils.decodeCompactBits(prev.getDifficultyTarget()); //BlockLastSolved->nbits
         newDifficulty = newDifficulty.multiply(BigInteger.valueOf(timespan));
         newDifficulty = newDifficulty.divide(BigInteger.valueOf(targetTimespan));
@@ -956,9 +902,139 @@ public abstract class AbstractBlockChain {
         newDifficulty = newDifficulty.and(mask);
 
         if (newDifficulty.compareTo(receivedDifficulty) != 0)
-            throw new VerificationException("Network provided difficulty bits do not match what was calculated: " +
+            throw new VerificationException("Network provided difficulty bits do not match what was calculated (below 51000): " +
                     receivedDifficulty.toString(16) + " vs " + newDifficulty.toString(16));
+		}
     }
+    
+    
+    private void checkDifficultyTransitions_V2(StoredBlock storedPrev, Block nextBlock) throws BlockStoreException, VerificationException {
+        final long BlocksTargetSpacing	= 60; // 1 minutes
+        int TimeDaySeconds	= 60 * 60 * 24;
+        long	PastSecondsMin	= TimeDaySeconds / 4; //6 hours
+        long	PastSecondsMax	= TimeDaySeconds * 1; // 1 day
+        long	PastBlocksMin	= PastSecondsMin / BlocksTargetSpacing; //144 blocks
+        long	PastBlocksMax	= PastSecondsMax / BlocksTargetSpacing; //4032 blocks
+
+        KimotoGravityWell(storedPrev, nextBlock, BlocksTargetSpacing, PastBlocksMin, PastBlocksMax);
+    }
+    
+    
+    private void verifyDifficulty(BigInteger calcDiff, Block nextBlock)
+    {
+        if (calcDiff.compareTo(params.getProofOfWorkLimit()) > 0) {
+            log.info("Difficulty hit proof of work limit: {}", calcDiff.toString(16));
+            calcDiff = params.getProofOfWorkLimit();
+        }
+        int accuracyBytes = (int) (nextBlock.getDifficultyTarget() >>> 24) - 3;
+        BigInteger receivedDifficulty = nextBlock.getDifficultyTargetAsInteger();
+
+        // The calculated difficulty is to a higher precision than received, so reduce here.
+        BigInteger mask = BigInteger.valueOf(0xFFFFFFL).shiftLeft(accuracyBytes * 8);
+        calcDiff = calcDiff.and(mask);
+
+        if (calcDiff.compareTo(receivedDifficulty) != 0)
+            throw new VerificationException("Network provided difficulty bits do not match what was calculated: " +
+                    receivedDifficulty.toString(16) + " vs " + calcDiff.toString(16));
+    }
+    
+    private void KimotoGravityWell(StoredBlock storedPrev, Block nextBlock, long TargetBlocksSpacingSeconds, long PastBlocksMin, long PastBlocksMax) throws BlockStoreException, VerificationException {
+/* current difficulty formula, megacoin - kimoto gravity well */
+        //const CBlockIndex *BlockLastSolved = pindexLast;
+        //const CBlockIndex *BlockReading = pindexLast;
+        //const CBlockHeader *BlockCreating = pblock;
+        StoredBlock BlockLastSolved = storedPrev;
+        StoredBlock BlockReading = storedPrev;
+        Block BlockCreating = nextBlock;
+
+        BlockCreating	= BlockCreating;
+        long	PastBlocksMass	= 0;
+        long	PastRateActualSeconds	= 0;
+        long	PastRateTargetSeconds	= 0;
+        double	PastRateAdjustmentRatio	= 1f;
+        BigInteger	PastDifficultyAverage = BigInteger.valueOf(0);
+        BigInteger	PastDifficultyAveragePrev = BigInteger.valueOf(0);;
+        double	EventHorizonDeviation;
+        double	EventHorizonDeviationFast;
+        double	EventHorizonDeviationSlow;
+
+        long start = System.currentTimeMillis();
+        long endLoop = 0;
+
+        if (BlockLastSolved == null || BlockLastSolved.getHeight() == 0 || (long)BlockLastSolved.getHeight() < PastBlocksMin)
+        { verifyDifficulty(params.getProofOfWorkLimit(), nextBlock); }
+
+        int i = 0;
+        //log.info("KGW: i = {}; height = {}; hash {} ", i, BlockReading.getHeight(), BlockReading.getHeader().getHashAsString());
+
+        for (i = 1; BlockReading != null && BlockReading.getHeight() > 0; i++) {
+            //long startLoop = System.currentTimeMillis();
+            if (PastBlocksMax > 0 && i > PastBlocksMax)
+            {
+                break;
+            }
+            PastBlocksMass++;
+
+            if (i == 1)	{ PastDifficultyAverage = BlockReading.getHeader().getDifficultyTargetAsInteger(); }
+            else	{ PastDifficultyAverage = ((BlockReading.getHeader().getDifficultyTargetAsInteger().subtract(PastDifficultyAveragePrev)).divide(BigInteger.valueOf(i)).add(PastDifficultyAveragePrev)); }
+            PastDifficultyAveragePrev = PastDifficultyAverage;
+
+            PastRateActualSeconds	= BlockLastSolved.getHeader().getTimeSeconds() - BlockReading.getHeader().getTimeSeconds();
+            PastRateTargetSeconds	= TargetBlocksSpacingSeconds * PastBlocksMass;
+            PastRateAdjustmentRatio	= 1.0f;
+            if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }
+            if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+                PastRateAdjustmentRatio	= (double)PastRateTargetSeconds / PastRateActualSeconds;
+            }
+            EventHorizonDeviation	= 1 + (0.7084 * java.lang.Math.pow((Double.valueOf(PastBlocksMass)/Double.valueOf(144)), -1.228));
+            EventHorizonDeviationFast	= EventHorizonDeviation;
+            EventHorizonDeviationSlow	= 1 / EventHorizonDeviation;
+
+            if (PastBlocksMass >= PastBlocksMin) {
+                if ((PastRateAdjustmentRatio <= EventHorizonDeviationSlow) || (PastRateAdjustmentRatio >= EventHorizonDeviationFast))
+                {
+                    /*assert(BlockReading)*/;
+                    break;
+                }
+            }
+            long calcTime = System.currentTimeMillis();
+            StoredBlock BlockReadingPrev = blockStore.get(BlockReading.getHeader().getPrevBlockHash());
+            if (BlockReadingPrev == null)
+            {
+                //If this is triggered, then we are using checkpoints and haven't downloaded enough blocks to verify the difficulty.
+                //assert(BlockReading); //from C++ code
+                //break; //from C++ code
+                return;
+            }
+            //log.info("KGW: i = {}; height = {}; hash {} ", i, BlockReadingPrev.getHeight(), BlockReadingPrev.getHeader().getHashAsString());
+            BlockReading = BlockReadingPrev;
+            //endLoop = System.currentTimeMillis();
+            //log.info("KGW: i = {}; height = {}; total time {}={}+{}", i, BlockReadingPrev.getHeight(), endLoop - startLoop, calcTime - startLoop, endLoop-calcTime);
+        }
+
+        /*CBigNum bnNew(PastDifficultyAverage);
+if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+bnNew *= PastRateActualSeconds;
+bnNew /= PastRateTargetSeconds;
+} */
+        //log.info("KGW iterations: {}, rewinding from {} to {}; time {}", i, BlockReading.getHeight(), storedPrev.getHeight()+1, endLoop - start);
+        BigInteger newDifficulty = PastDifficultyAverage;
+        if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+            newDifficulty = newDifficulty.multiply(BigInteger.valueOf(PastRateActualSeconds));
+            newDifficulty = newDifficulty.divide(BigInteger.valueOf(PastRateTargetSeconds));
+        }
+
+        if (newDifficulty.compareTo(params.getProofOfWorkLimit()) > 0) {
+            log.info("Difficulty hit proof of work limit: {}", newDifficulty.toString(16));
+            newDifficulty = params.getProofOfWorkLimit();
+        }
+
+
+		System.out.println("verifyDifficulty of Kimoto: "+ newDifficulty.toString(16));
+        verifyDifficulty(newDifficulty, nextBlock);
+
+    }
+    
 
     private void checkTestnetDifficulty(StoredBlock storedPrev, Block prev, Block next) throws VerificationException, BlockStoreException {
         checkState(lock.isHeldByCurrentThread());

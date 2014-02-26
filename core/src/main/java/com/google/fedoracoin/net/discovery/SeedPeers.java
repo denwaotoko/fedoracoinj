@@ -96,6 +96,9 @@ public class SeedPeers implements PeerDiscovery {
                     0xBAF5BB48, 0x018DAA32,*/
                     0xEF388186, 0x77CA174C, 0x1674E951, 0x3199824A,
                     0xA4DE3AB0, 0xB91C20B2, 0x0106F55A, 0xC1D54147,
+                    0xF0DF0C5A, 0xB1542544, 0x78D843BB, 0x50A01FB0,
+                    0xB2CD361F, 0x0A03CA70, 0x177AB143,
+                    
                     
                     
             };
